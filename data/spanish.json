@@ -1,0 +1,17 @@
+{
+  "similar": [
+    "hombre",
+    "mujer",
+    "niño",
+    "niña",
+    "abuelo",
+    "abuela"
+  ],
+  "different": [
+    "rojo",
+    "blanco",
+    "azul",
+    "verde",
+    "gris"
+  ]
+}

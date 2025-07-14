@@ -6,11 +6,13 @@ const cardContainer = document.getElementById("card-container");
 const message = document.getElementById("message");
 const scoreDisplay = document.getElementById("score");
 const nextRoundBtn = document.getElementById("next-round");
+const categorySelect = document.querySelector(".category-select");
 
 let correctIndex = -1;
+let currentCategory = null;
 
-async function loadCategoryData() {
-  const response = await fetch("./data/colors.json");
+async function loadCategoryData(category) {
+  const response = await fetch(`./data/${category}.json`);
   return response.json();
 }
 
@@ -22,17 +24,36 @@ function shuffleArray(arr) {
   return arr;
 }
 
-function createCard(color, index) {
+function createCard(content, index) {
   const card = document.createElement("div");
   card.classList.add("card");
+  console.log(content);
 
-  const colorBox = document.createElement("div");
-  colorBox.classList.add("color-box");
-  colorBox.style.backgroundColor = color;
+  // For colors, content might be a color string; for others, an object with image or text
+  if (typeof content === "string" && content.startsWith("#")) {
+    // Color box
+    const colorBox = document.createElement("div");
+    colorBox.classList.add("color-box");
+    colorBox.style.backgroundColor = content;
+    card.appendChild(colorBox);
+  } else if (content.image) {
+    // Image card
+    const img = document.createElement("img");
+    img.src = content.image;
+    img.alt = content.alt || "";
+    img.style.maxWidth = "100%";
+    img.style.maxHeight = "100%";
+    card.appendChild(img);
+  } else if (typeof content === "string") {
+    // Text card (for Spanish words)
+    const textBox = document.createElement("div");
+    textBox.classList.add("text-box");
+    textBox.textContent = content;
+    textBox.style.fontSize = "1.5em";
+    card.appendChild(textBox);
+  }
 
-  card.appendChild(colorBox);
   card.addEventListener("click", () => handleCardClick(index, card));
-
   return card;
 }
 
@@ -59,33 +80,45 @@ function handleCardClick(index, card) {
   }, 3000);
 }
 
-function renderRound(colorsData) {
+function renderRound(data) {
   cardContainer.innerHTML = "";
   message.textContent = "";
   nextRoundBtn.classList.add("hidden");
 
-  const similarColors = shuffleArray(colorsData.similar).slice(0, 4);
-  const oddColor = shuffleArray(colorsData.different)[0];
+  // Extract 4 similar + 1 different items dynamically
+  const similarItems = shuffleArray(data.similar).slice(0, 4);
+  const differentItem = shuffleArray(data.different)[0];
 
-  const allColors = [...similarColors];
+  const allItems = [...similarItems];
   correctIndex = Math.floor(Math.random() * 5);
-  allColors.splice(correctIndex, 0, oddColor);
+  allItems.splice(correctIndex, 0, differentItem);
 
-  allColors.forEach((color, index) => {
-    const card = createCard(color, index);
+  allItems.forEach((item, index) => {
+    const card = createCard(item, index);
     cardContainer.appendChild(card);
   });
 }
 
 async function startGame() {
-  const colorsData = await loadCategoryData();
-  renderRound(colorsData);
+  if (!currentCategory) return;
+
+  currentRound = 0;
+  score = 0;
+  scoreDisplay.textContent = score;
+  nextRoundBtn.textContent = "Next Round";
+
+  categorySelect.style.display = "none";
+  cardContainer.style.display = "flex";
+
+  const data = await loadCategoryData(currentCategory);
+  renderRound(data);
 }
 
-nextRoundBtn.addEventListener("click", () => {
+nextRoundBtn.addEventListener("click", async () => {
   currentRound++;
   if (currentRound < totalRounds) {
-    startGame();
+    const data = await loadCategoryData(currentCategory);
+    renderRound(data);
   } else {
     message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
     nextRoundBtn.textContent = "Play Again";
@@ -93,4 +126,9 @@ nextRoundBtn.addEventListener("click", () => {
   }
 });
 
-startGame();
+document.querySelectorAll(".category-select button").forEach(button => {
+  button.addEventListener("click", () => {
+    currentCategory = button.getAttribute("data-category");
+    startGame();
+  });
+});
