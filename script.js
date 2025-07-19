@@ -2,11 +2,14 @@ let currentRound = 0;
 let score = 0;
 const totalRounds = 5;
 
+const gameContainer = document.getElementById("game-container");
 const cardContainer = document.getElementById("card-container");
 const message = document.getElementById("message");
 const scoreDisplay = document.getElementById("score");
 const nextRoundBtn = document.getElementById("next-round");
 const categorySelect = document.querySelector(".category-select");
+gameContainer.classList.add("hidden");
+
 
 let correctIndex = -1;
 let currentCategory = null;
@@ -72,12 +75,26 @@ function handleCardClick(index, card) {
   }
 
   scoreDisplay.textContent = score;
-  nextRoundBtn.classList.remove("hidden");
+  // nextRoundBtn.classList.remove("hidden");
 
   setTimeout(() => {
     document.body.style.backgroundColor = "#f4f4f4";
     document.body.classList.remove("lock");
+    advanceRound();
   }, 3000);
+}
+
+async function advanceRound() {
+  currentRound++;
+  if (currentRound < totalRounds) {
+    const data = await loadCategoryData(currentCategory);
+    renderRound(data);
+  } else {
+    message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
+    nextRoundBtn.textContent = "Play Again";
+    nextRoundBtn.classList.remove("hidden");
+    nextRoundBtn.onclick = () => location.reload();
+  }
 }
 
 function renderRound(data) {
@@ -100,35 +117,21 @@ function renderRound(data) {
 }
 
 async function startGame() {
-  if (!currentCategory) return;
-
+  categorySelect.style.display = "hidden";
   currentRound = 0;
   score = 0;
   scoreDisplay.textContent = score;
-  nextRoundBtn.textContent = "Next Round";
-
-  categorySelect.style.display = "none";
-  cardContainer.style.display = "flex";
-
   const data = await loadCategoryData(currentCategory);
   renderRound(data);
 }
 
-nextRoundBtn.addEventListener("click", async () => {
-  currentRound++;
-  if (currentRound < totalRounds) {
-    const data = await loadCategoryData(currentCategory);
-    renderRound(data);
-  } else {
-    message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
-    nextRoundBtn.textContent = "Play Again";
-    nextRoundBtn.onclick = () => location.reload();
-  }
-});
+// startGame();
 
 document.querySelectorAll(".category-select button").forEach(button => {
   button.addEventListener("click", () => {
     currentCategory = button.getAttribute("data-category");
+    gameContainer.style.display = "block";
+    categorySelect.style.display = "none";
     startGame();
   });
 });

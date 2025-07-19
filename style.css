@@ -16,6 +16,7 @@ body {
 }
 
 .game-container {
+  display: "hidden";
   text-align: center;
   width: 90%;
   max-width: 800px;
