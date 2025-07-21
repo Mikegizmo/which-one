@@ -73,18 +73,11 @@ h1, h2 {
   height: 100%;
 }
 
-/* #card-container {
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
-
 .card-container {
   display: grid;
   gap: 1rem;
   justify-content: center;
-  align-items: center;
+  grid-template-columns: repeat(3, 100px);
   margin-top: 2rem;
 }
 

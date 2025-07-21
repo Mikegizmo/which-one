@@ -1,17 +1,6 @@
 {
-  "similar": [
-    "hombre",
-    "mujer",
-    "niño",
-    "niña",
-    "abuelo",
-    "abuela"
-  ],
-  "different": [
-    "rojo",
-    "blanco",
-    "azul",
-    "verde",
-    "gris"
-  ]
+  "groups": {
+    "animals": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"],
+    "fruits": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"]
+  }
 }

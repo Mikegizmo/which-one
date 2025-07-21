@@ -29,33 +29,51 @@ function shuffleArray(arr) {
   return arr;
 }
 
-function createCard(content, index) {
+// function createCard(content, index) {
+//   const card = document.createElement("div");
+//   card.classList.add("card");
+//   console.log(content);
+
+//   // For colors, content might be a color string; for others, an object with image or text
+//   if (typeof content === "string" && content.startsWith("#")) {
+//     // Color box
+//     const colorBox = document.createElement("div");
+//     colorBox.classList.add("color-box");
+//     colorBox.style.backgroundColor = content;
+//     card.appendChild(colorBox);
+//   } else if (content.image) {
+//     // Image card
+//     const img = document.createElement("img");
+//     img.src = content.image;
+//     img.alt = content.alt || "";
+//     img.style.maxWidth = "100%";
+//     img.style.maxHeight = "100%";
+//     card.appendChild(img);
+//   } else if (typeof content === "string") {
+//     // Text card (for Spanish words)
+//     const textBox = document.createElement("div");
+//     textBox.classList.add("text-box");
+//     textBox.textContent = content;
+//     textBox.style.fontSize = "1.5em";
+//     card.appendChild(textBox);
+//   }
+
+//   card.addEventListener("click", () => handleCardClick(index, card));
+//   return card;
+// }
+const numCards = currentDifficulty;
+
+function createCard(item, index, category) {
   const card = document.createElement("div");
   card.classList.add("card");
-  console.log(content);
 
-  // For colors, content might be a color string; for others, an object with image or text
-  if (typeof content === "string" && content.startsWith("#")) {
-    // Color box
+  if (category === "colors") {
     const colorBox = document.createElement("div");
     colorBox.classList.add("color-box");
-    colorBox.style.backgroundColor = content;
+    colorBox.style.backgroundColor = item;
     card.appendChild(colorBox);
-  } else if (content.image) {
-    // Image card
-    const img = document.createElement("img");
-    img.src = content.image;
-    img.alt = content.alt || "";
-    img.style.maxWidth = "100%";
-    img.style.maxHeight = "100%";
-    card.appendChild(img);
-  } else if (typeof content === "string") {
-    // Text card (for Spanish words)
-    const textBox = document.createElement("div");
-    textBox.classList.add("text-box");
-    textBox.textContent = content;
-    textBox.style.fontSize = "1.5em";
-    card.appendChild(textBox);
+  } else {
+    card.textContent = item; // word/image/etc
   }
 
   card.addEventListener("click", () => handleCardClick(index, card));
@@ -100,42 +118,65 @@ function getRandomGroup(groups) {
   return keys[Math.floor(Math.random() * keys.length)];
 }
 
-// function renderRound(cardsData) {
+function generateItemsFromGroups(groups, numCards) {
+  const groupValues = Object.values(groups);
+  const groupCount = groupValues.length;
+
+  const correctGroupIndex = Math.floor(Math.random() * groupCount);
+  const oddGroupIndex = (correctGroupIndex + 1 + Math.floor(Math.random() * (groupCount - 1))) % groupCount;
+
+  const correctGroup = shuffleArray([...groupValues[correctGroupIndex]]);
+  const oddGroup = shuffleArray([...groupValues[oddGroupIndex]]);
+  console.log(correctGroup);
+
+  const correctItem = oddGroup[0];
+  const items = correctGroup.slice(0, numCards - 1);
+  const correctIndex = Math.floor(Math.random() * numCards);
+  items.splice(correctIndex, 0, correctItem);
+
+  return { items, correctIndex };
+}
+
+// function renderRound(data) {
 //   cardContainer.innerHTML = "";
 //   message.textContent = "";
 //   nextRoundBtn.classList.add("hidden");
+//   const numCards = currentDifficulty;
 
-//   const groups = cardsData.colorGroups;
-//   const groupNames = Object.keys(groups);
-
-//   // 1. Pick one group as the base (similar colors)
-//   const baseGroupName = getRandomGroup(groups);
-//   let oddGroupName = getRandomGroup(groups);
-
-//   // 2. Make sure the odd group is different
-//   while (oddGroupName === baseGroupName) {
-//     oddGroupName = getRandomGroup(groups);
+//    // Set grid layout
+//   cardContainer.className = "card-container"; // reset classes
+//   if (numCards === 6) {
+//     cardContainer.classList.add("grid-3x2");
+//   } else if (numCards === 9) {
+//     cardContainer.classList.add("grid-3x3");
 //   }
 
-//   const baseColors = shuffleArray(groups[baseGroupName]);
-//   console.log(baseColors);
-//   const oddColors = shuffleArray(groups[oddGroupName]);
+//   let items = [];
+//   let correctItem;
+//   if (currentCategory === "colors") {
+//     const groups = Object.values(data.colorGroups);
+//     const groupIndex = Math.floor(Math.random() * groups.length);
+//     const correctGroup = groups[groupIndex];
+//     const oddGroup = groups[(groupIndex + 1) % groups.length];
 
-//   const numberOfCards = currentDifficulty; // easy: 3, medium: 6, hard: 9
-//   console.log(currentDifficulty);
+//     const numCards = currentDifficulty;
+//     items = shuffleArray(correctGroup).slice(0, numCards - 1);
+//     correctItem = shuffleArray(oddGroup)[0];
 
-//   // 3. Choose one odd color
-//   const oddColor = oddColors[0];
+//     correctIndex = Math.floor(Math.random() * numCards);
+//     items.splice(correctIndex, 0, correctItem);
+//   } else {
+//     // For other categories (with similar/different structure)
+//     const numCards = currentDifficulty;
+//     const similarItems = shuffleArray(data.similar).slice(0, numCards - 1);
+//     const oddItem = shuffleArray(data.different)[0];
+//     items = [...similarItems];
+//     correctIndex = Math.floor(Math.random() * numCards);
+//     items.splice(correctIndex, 0, oddItem);
+//   }
 
-//   // 4. Fill the rest with base colors
-//   const similarColors = baseColors.slice(0, numberOfCards - 1);
-
-//   const allColors = [...similarColors];
-//   correctIndex = Math.floor(Math.random() * numberOfCards);
-//   allColors.splice(correctIndex, 0, oddColor);
-
-//   allColors.forEach((color, index) => {
-//     const card = createCard(color, index);
+//   items.forEach((item, index) => {
+//     const card = createCard(item, index, currentCategory);
 //     cardContainer.appendChild(card);
 //   });
 // }
@@ -145,7 +186,6 @@ function renderRound(data) {
   nextRoundBtn.classList.add("hidden");
   const numCards = currentDifficulty;
 
-   // Set grid layout
   cardContainer.className = "card-container"; // reset classes
   if (numCards === 6) {
     cardContainer.classList.add("grid-3x2");
@@ -153,35 +193,15 @@ function renderRound(data) {
     cardContainer.classList.add("grid-3x3");
   }
 
-  let items = [];
-  let correctItem;
-  if (currentCategory === "colors") {
-    const groups = Object.values(data.colorGroups);
-    const groupIndex = Math.floor(Math.random() * groups.length);
-    const correctGroup = groups[groupIndex];
-    const oddGroup = groups[(groupIndex + 1) % groups.length];
+  const { items, correctIndex: index } = generateItemsFromGroups(data.groups, numCards);
+  correctIndex = index;
 
-    const numCards = currentDifficulty;
-    items = shuffleArray(correctGroup).slice(0, numCards - 1);
-    correctItem = shuffleArray(oddGroup)[0];
-
-    correctIndex = Math.floor(Math.random() * numCards);
-    items.splice(correctIndex, 0, correctItem);
-  } else {
-    // For other categories (with similar/different structure)
-    const numCards = currentDifficulty;
-    const similarItems = shuffleArray(data.similar).slice(0, numCards - 1);
-    const oddItem = shuffleArray(data.different)[0];
-    items = [...similarItems];
-    correctIndex = Math.floor(Math.random() * numCards);
-    items.splice(correctIndex, 0, oddItem);
-  }
-
-  items.forEach((item, index) => {
-    const card = createCard(item, index, currentCategory);
+  items.forEach((item, idx) => {
+    const card = createCard(item, idx, currentCategory);
     cardContainer.appendChild(card);
-  });
+  });  
 }
+
 
 
 async function startRound() {
