@@ -29,38 +29,6 @@ function shuffleArray(arr) {
   return arr;
 }
 
-// function createCard(content, index) {
-//   const card = document.createElement("div");
-//   card.classList.add("card");
-//   console.log(content);
-
-//   // For colors, content might be a color string; for others, an object with image or text
-//   if (typeof content === "string" && content.startsWith("#")) {
-//     // Color box
-//     const colorBox = document.createElement("div");
-//     colorBox.classList.add("color-box");
-//     colorBox.style.backgroundColor = content;
-//     card.appendChild(colorBox);
-//   } else if (content.image) {
-//     // Image card
-//     const img = document.createElement("img");
-//     img.src = content.image;
-//     img.alt = content.alt || "";
-//     img.style.maxWidth = "100%";
-//     img.style.maxHeight = "100%";
-//     card.appendChild(img);
-//   } else if (typeof content === "string") {
-//     // Text card (for Spanish words)
-//     const textBox = document.createElement("div");
-//     textBox.classList.add("text-box");
-//     textBox.textContent = content;
-//     textBox.style.fontSize = "1.5em";
-//     card.appendChild(textBox);
-//   }
-
-//   card.addEventListener("click", () => handleCardClick(index, card));
-//   return card;
-// }
 const numCards = currentDifficulty;
 
 function createCard(item, index, category) {
@@ -94,7 +62,7 @@ function handleCardClick(index, card) {
     document.body.style.backgroundColor = "#f4a6a6";
   }
 
-  scoreDisplay.textContent = score;
+  scoreDisplay.textContent = `${score}/${totalRounds}`;
   nextRoundBtn.classList.add("hidden");
 
   setTimeout(() => {
@@ -127,7 +95,6 @@ function generateItemsFromGroups(groups, numCards) {
 
   const correctGroup = shuffleArray([...groupValues[correctGroupIndex]]);
   const oddGroup = shuffleArray([...groupValues[oddGroupIndex]]);
-  console.log(correctGroup);
 
   const correctItem = oddGroup[0];
   const items = correctGroup.slice(0, numCards - 1);
@@ -137,49 +104,6 @@ function generateItemsFromGroups(groups, numCards) {
   return { items, correctIndex };
 }
 
-// function renderRound(data) {
-//   cardContainer.innerHTML = "";
-//   message.textContent = "";
-//   nextRoundBtn.classList.add("hidden");
-//   const numCards = currentDifficulty;
-
-//    // Set grid layout
-//   cardContainer.className = "card-container"; // reset classes
-//   if (numCards === 6) {
-//     cardContainer.classList.add("grid-3x2");
-//   } else if (numCards === 9) {
-//     cardContainer.classList.add("grid-3x3");
-//   }
-
-//   let items = [];
-//   let correctItem;
-//   if (currentCategory === "colors") {
-//     const groups = Object.values(data.colorGroups);
-//     const groupIndex = Math.floor(Math.random() * groups.length);
-//     const correctGroup = groups[groupIndex];
-//     const oddGroup = groups[(groupIndex + 1) % groups.length];
-
-//     const numCards = currentDifficulty;
-//     items = shuffleArray(correctGroup).slice(0, numCards - 1);
-//     correctItem = shuffleArray(oddGroup)[0];
-
-//     correctIndex = Math.floor(Math.random() * numCards);
-//     items.splice(correctIndex, 0, correctItem);
-//   } else {
-//     // For other categories (with similar/different structure)
-//     const numCards = currentDifficulty;
-//     const similarItems = shuffleArray(data.similar).slice(0, numCards - 1);
-//     const oddItem = shuffleArray(data.different)[0];
-//     items = [...similarItems];
-//     correctIndex = Math.floor(Math.random() * numCards);
-//     items.splice(correctIndex, 0, oddItem);
-//   }
-
-//   items.forEach((item, index) => {
-//     const card = createCard(item, index, currentCategory);
-//     cardContainer.appendChild(card);
-//   });
-// }
 function renderRound(data) {
   cardContainer.innerHTML = "";
   message.textContent = "";
@@ -202,8 +126,6 @@ function renderRound(data) {
   });  
 }
 
-
-
 async function startRound() {
   const cardsData = await loadCategoryData();
   renderRound(cardsData);
@@ -225,7 +147,7 @@ startGameBtn.addEventListener("click", () => {
   startRound();
 });
 
-// Add toggle behavior for category and difficulty buttons
+// Add toggle behavior for category, difficulty, number of rounds buttons
 document.querySelectorAll("#category-options .option").forEach(button => {
   button.addEventListener("click", () => {
     document.querySelectorAll("#category-options .option").forEach(btn => btn.classList.remove("selected"));
@@ -239,3 +161,12 @@ document.querySelectorAll("#difficulty-options .option").forEach(button => {
     button.classList.add("selected");
   });
 });
+
+document.querySelectorAll("#rounds-group .option").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("#rounds-group .option").forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
+    totalRounds = parseInt(btn.dataset.value);
+  });
+});
+

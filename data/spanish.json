@@ -1,6 +1,9 @@
 {
   "groups": {
     "animals": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"],
-    "fruits": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"]
+    "fruits": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"],
+    "people": ["padre", "madre", "niño", "niña", "abuelo", "abuela", "hermano", "hermana"],
+    "months": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+    "numbers": ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"]
   }
 }
