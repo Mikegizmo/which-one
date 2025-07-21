@@ -1,82 +1,108 @@
-/* General Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
   background-color: #f4f4f4;
-  transition: background-color 0.5s;
-}
-
-.game-container {
-  display: "hidden";
+  margin: 0;
+  padding: 20px;
   text-align: center;
-  width: 90%;
-  max-width: 800px;
 }
 
-.card-container {
+h1, h2 {
+  margin: 10px 0;
+}
+
+.button-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px;
-  margin: 20px 0;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.option {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.option.selected {
+  background-color: #4caf50;
+  color: white;
+  border-color: #4caf50;
+}
+
+#start-game, #next-round {
+  padding: 10px 25px;
+  font-size: 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#start-game:hover, #next-round:hover {
+  background-color: #555;
 }
 
 .card {
-  width: 120px;
-  height: 160px;
-  perspective: 1000px;
+  display: inline-block;
+  margin: 10px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  background-color: white;
   cursor: pointer;
 }
 
-.card .color-box {
-  width: 80%;
-  height: 80%;
+.color-box {
+  width: 100%;
+  height: 100%;
   border-radius: 8px;
-  background-color: inherit; /* Optional, unless overridden elsewhere */
-  border: 2px solid #000; /* Optional: adds contrast */
 }
 
 .text-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
-  height: 80%;
-  border-radius: 8px;
-  border: 2px solid #000;
+  width: 100%;
+  height: 100%;
 }
 
-.message {
-  font-size: 1.2em;
-  margin-top: 10px;
-}
-
-.scoreboard {
+/* #card-container {
   margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+} */
+
+.card-container {
+  display: grid;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
 }
 
-#next-round {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
+.grid-3x2 {
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(2, 100px);
+}
+
+.grid-3x3 {
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
 }
 
 .hidden {
   display: none;
 }
 
-@media (max-width: 600px) {
-  .card {
-    width: 90px;
-    height: 120px;
-  }
+#scoreboard {
+  font-weight: bold;
+  margin-bottom: 10px;
 }

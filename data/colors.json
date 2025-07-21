@@ -1,16 +1,28 @@
 {
-  "similar": [
-    "#ff9999",
-    "#ff6666",
-    "#ff4d4d",
-    "#ff3333",
-    "#ff1a1a"
-  ],
-  "different": [
-    "#66b3ff",
-    "#33cc33",
-    "#cc99ff",
-    "#ffff66",
-    "#ffb366"
-  ]
+  "colorGroups": {
+    "blues": [
+      "#add8e6", "#87ceeb", "#4682b4", "#1e90ff",
+      "#5f9ea0", "#6495ed", "#00bfff", "#4169e1"
+    ],
+    "reds": [
+      "#f08080", "#fa8072", "#dc143c", "#ff6347",
+      "#cd5c5c", "#e9967a", "#ff4500", "#b22222"
+    ],
+    "greens": [
+      "#90ee90", "#8fbc8f", "#3cb371", "#2e8b57",
+      "#66cdaa", "#32cd32", "#00fa9a", "#00ff7f"
+    ],
+    "yellows": [
+      "#fffacd", "#f0e68c", "#ffd700", "#eee8aa",
+      "#fafad2", "#ffff00", "#ffe135", "#ffeb3b"
+    ],
+    "purples": [
+      "#dda0dd", "#da70d6", "#ba55d3", "#9932cc",
+      "#8a2be2", "#9400d3", "#800080", "#9370db"
+    ],
+    "oranges": [
+      "#ffa07a", "#ff8c00", "#ff7f50", "#ff6347",
+      "#ffb347", "#ffcc99", "#ffae42", "#f4a460"
+    ]
+  }
 }

@@ -2,27 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Which One - Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Which One</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="category-select">
-    <h2>Select a Category</h2>
-    <button data-category="animals">Animals</button>
-    <button data-category="nature">Nature</button>
-    <button data-category="spanish">Spanish Words</button>
-    <button data-category="colors">Colors</button>
-  </div>
-  <div id="game-container" class="game-container">
+  <div class="setup-screen" id="setup-screen">
     <h1>Which One?</h1>
-    <div id="card-container" class="card-container"></div>
-    <div id="message" class="message"></div>
-    <div class="scoreboard">
-      <p>Score: <span id="score">0</span>/5</p>
+
+    <h2>Select Category</h2>
+    <div class="button-group" id="category-options">
+      <button class="option selected" data-value="colors">Colors</button>
+      <button class="option" data-value="animals">Animals</button>
+      <button class="option" data-value="nature">Nature</button>
+      <button class="option" data-value="spanish">Spanish Words</button>
     </div>
+
+    <h2>Select Difficulty</h2>
+    <div class="button-group" id="difficulty-options">
+      <button class="option selected" data-value="easy">Easy (3 cards)</button>
+      <button class="option" data-value="medium">Medium (6 cards)</button>
+      <button class="option" data-value="hard">Hard (9 cards)</button>
+    </div>
+
+    <button id="start-game">Begin Game</button>
+  </div>
+
+  <div class="game-screen hidden" id="game-screen">
+    <div id="scoreboard">Score: <span id="score">0</span></div>
+    <div id="message"></div>
+    <div id="card-container"></div>
     <button id="next-round" class="hidden">Next Round</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

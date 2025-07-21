@@ -1,21 +1,23 @@
+// script.js
+
 let currentRound = 0;
 let score = 0;
-const totalRounds = 5;
+let totalRounds = 5;
+let correctIndex = -1;
+let currentCategory = "colors";
+let currentDifficulty = "easy";
+let cardCount = 3;
 
-const gameContainer = document.getElementById("game-container");
 const cardContainer = document.getElementById("card-container");
 const message = document.getElementById("message");
 const scoreDisplay = document.getElementById("score");
 const nextRoundBtn = document.getElementById("next-round");
-const categorySelect = document.querySelector(".category-select");
-gameContainer.classList.add("hidden");
+const startGameBtn = document.getElementById("start-game");
+const setupScreen = document.getElementById("setup-screen");
+const gameScreen = document.getElementById("game-screen");
 
-
-let correctIndex = -1;
-let currentCategory = null;
-
-async function loadCategoryData(category) {
-  const response = await fetch(`./data/${category}.json`);
+async function loadCategoryData() {
+  const response = await fetch(`./data/${currentCategory}.json`);
   return response.json();
 }
 
@@ -75,63 +77,145 @@ function handleCardClick(index, card) {
   }
 
   scoreDisplay.textContent = score;
-  // nextRoundBtn.classList.remove("hidden");
+  nextRoundBtn.classList.add("hidden");
 
   setTimeout(() => {
     document.body.style.backgroundColor = "#f4f4f4";
     document.body.classList.remove("lock");
-    advanceRound();
+
+    currentRound++;
+    if (currentRound < totalRounds) {
+      startRound();
+    } else {
+      message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
+      nextRoundBtn.textContent = "Play Again";
+      nextRoundBtn.classList.remove("hidden");
+      nextRoundBtn.onclick = () => location.reload();
+    }
   }, 3000);
 }
 
-async function advanceRound() {
-  currentRound++;
-  if (currentRound < totalRounds) {
-    const data = await loadCategoryData(currentCategory);
-    renderRound(data);
-  } else {
-    message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
-    nextRoundBtn.textContent = "Play Again";
-    nextRoundBtn.classList.remove("hidden");
-    nextRoundBtn.onclick = () => location.reload();
-  }
+function getRandomGroup(groups) {
+  const keys = Object.keys(groups);
+  return keys[Math.floor(Math.random() * keys.length)];
 }
 
+// function renderRound(cardsData) {
+//   cardContainer.innerHTML = "";
+//   message.textContent = "";
+//   nextRoundBtn.classList.add("hidden");
+
+//   const groups = cardsData.colorGroups;
+//   const groupNames = Object.keys(groups);
+
+//   // 1. Pick one group as the base (similar colors)
+//   const baseGroupName = getRandomGroup(groups);
+//   let oddGroupName = getRandomGroup(groups);
+
+//   // 2. Make sure the odd group is different
+//   while (oddGroupName === baseGroupName) {
+//     oddGroupName = getRandomGroup(groups);
+//   }
+
+//   const baseColors = shuffleArray(groups[baseGroupName]);
+//   console.log(baseColors);
+//   const oddColors = shuffleArray(groups[oddGroupName]);
+
+//   const numberOfCards = currentDifficulty; // easy: 3, medium: 6, hard: 9
+//   console.log(currentDifficulty);
+
+//   // 3. Choose one odd color
+//   const oddColor = oddColors[0];
+
+//   // 4. Fill the rest with base colors
+//   const similarColors = baseColors.slice(0, numberOfCards - 1);
+
+//   const allColors = [...similarColors];
+//   correctIndex = Math.floor(Math.random() * numberOfCards);
+//   allColors.splice(correctIndex, 0, oddColor);
+
+//   allColors.forEach((color, index) => {
+//     const card = createCard(color, index);
+//     cardContainer.appendChild(card);
+//   });
+// }
 function renderRound(data) {
   cardContainer.innerHTML = "";
   message.textContent = "";
   nextRoundBtn.classList.add("hidden");
+  const numCards = currentDifficulty;
 
-  // Extract 4 similar + 1 different items dynamically
-  const similarItems = shuffleArray(data.similar).slice(0, 4);
-  const differentItem = shuffleArray(data.different)[0];
+   // Set grid layout
+  cardContainer.className = "card-container"; // reset classes
+  if (numCards === 6) {
+    cardContainer.classList.add("grid-3x2");
+  } else if (numCards === 9) {
+    cardContainer.classList.add("grid-3x3");
+  }
 
-  const allItems = [...similarItems];
-  correctIndex = Math.floor(Math.random() * 5);
-  allItems.splice(correctIndex, 0, differentItem);
+  let items = [];
+  let correctItem;
+  if (currentCategory === "colors") {
+    const groups = Object.values(data.colorGroups);
+    const groupIndex = Math.floor(Math.random() * groups.length);
+    const correctGroup = groups[groupIndex];
+    const oddGroup = groups[(groupIndex + 1) % groups.length];
 
-  allItems.forEach((item, index) => {
-    const card = createCard(item, index);
+    const numCards = currentDifficulty;
+    items = shuffleArray(correctGroup).slice(0, numCards - 1);
+    correctItem = shuffleArray(oddGroup)[0];
+
+    correctIndex = Math.floor(Math.random() * numCards);
+    items.splice(correctIndex, 0, correctItem);
+  } else {
+    // For other categories (with similar/different structure)
+    const numCards = currentDifficulty;
+    const similarItems = shuffleArray(data.similar).slice(0, numCards - 1);
+    const oddItem = shuffleArray(data.different)[0];
+    items = [...similarItems];
+    correctIndex = Math.floor(Math.random() * numCards);
+    items.splice(correctIndex, 0, oddItem);
+  }
+
+  items.forEach((item, index) => {
+    const card = createCard(item, index, currentCategory);
     cardContainer.appendChild(card);
   });
 }
 
-async function startGame() {
-  categorySelect.style.display = "hidden";
-  currentRound = 0;
-  score = 0;
-  scoreDisplay.textContent = score;
-  const data = await loadCategoryData(currentCategory);
-  renderRound(data);
+
+async function startRound() {
+  const cardsData = await loadCategoryData();
+  renderRound(cardsData);
 }
 
-// startGame();
+startGameBtn.addEventListener("click", () => {
+  const selectedCategory = document.querySelector("#category-options .selected");
+  const selectedDifficulty = document.querySelector("#difficulty-options .selected");
 
-document.querySelectorAll(".category-select button").forEach(button => {
+  if (selectedCategory) currentCategory = selectedCategory.dataset.value;
+  if (selectedDifficulty) {
+    currentDifficulty = selectedDifficulty.dataset.value === "medium" ? 6 :
+                        selectedDifficulty.dataset.value === "hard" ? 9 : 3;
+    cardCount = currentDifficulty === "easy" ? 3 : currentDifficulty === "medium" ? 6 : 9;
+  }
+
+  setupScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+  startRound();
+});
+
+// Add toggle behavior for category and difficulty buttons
+document.querySelectorAll("#category-options .option").forEach(button => {
   button.addEventListener("click", () => {
-    currentCategory = button.getAttribute("data-category");
-    gameContainer.style.display = "block";
-    categorySelect.style.display = "none";
-    startGame();
+    document.querySelectorAll("#category-options .option").forEach(btn => btn.classList.remove("selected"));
+    button.classList.add("selected");
+  });
+});
+
+document.querySelectorAll("#difficulty-options .option").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("#difficulty-options .option").forEach(btn => btn.classList.remove("selected"));
+    button.classList.add("selected");
   });
 });
