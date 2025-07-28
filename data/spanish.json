@@ -1,12 +1,40 @@
 {
-  "groups": {
-    "animals": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"],
-    "fruits": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"],
-    "people": ["padre", "madre", "niño", "niña", "abuelo", "abuela", "hermano", "hermana"],
-    "places": ["aeropuerto", "biblioteca", "casa", "tienda", "supermercado", "banco", "iglesia", "cine"],
-    "clothing": ["ropa", "camisa", "pantalones", "calcetines", "zapatos", "chaqueta", "vestido", "sombrero"],
-    "household": ["ventana", "mesa", "silla", "cama", "lámpara", "manta", "espejo", "almohada"],
-    "months": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
-    "numbers": ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"]
-  }
+  "groups": [
+    {
+      "name": "animals",
+      "items": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"]
+    },
+    {
+      "name": "fruits",
+      "items": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"]
+    },
+    {
+      "name": "people",
+      "items": ["padre", "madre", "niño", "niña", "abuelo", "abuela", "hermano", "hermana"]
+    },
+    {
+      "name": "places",
+      "items": ["aeropuerto", "biblioteca", "casa", "tienda", "supermercado", "banco", "iglesia", "cine"]
+    },
+    {
+      "name": "clothing",
+      "items": ["ropa", "camisa", "pantalones", "calcetines", "zapatos", "chaqueta", "vestido", "sombrero"]
+    },
+    {
+      "name": "household",
+      "items": ["ventana", "mesa", "silla", "cama", "lámpara", "manta", "espejo", "almohada"]
+    },
+    {
+      "name": "professions",
+      "items": ["profesor", "enfermero", "cocinero", "periodista", "abogado", "cajero", "mesero", "policía"]
+    },
+    {
+      "name": "months",
+      "items": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
+    },
+    {
+      "name": "numbers",
+      "items": ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"]
+    }
+  ]
 }

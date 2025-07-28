@@ -7,6 +7,8 @@ let correctIndex = -1;
 let currentCategory = "colors";
 let currentDifficulty = "easy";
 let cardCount = 3;
+let mainGroupLabel = "";
+let oddOneLabel = "";
 
 const cardContainer = document.getElementById("card-container");
 const message = document.getElementById("message");
@@ -38,46 +40,68 @@ function createCard(item, index, category) {
   if (category === "colors") {
     const colorBox = document.createElement("div");
     colorBox.classList.add("color-box");
-    colorBox.style.backgroundColor = item;
+    colorBox.style.backgroundColor = item.value;
     card.appendChild(colorBox);
   } else {
     card.textContent = item; // word/image/etc
   }
 
-  card.addEventListener("click", () => handleCardClick(index, card));
+  card.addEventListener("click", () => handleCardClick(index, card, category));
   return card;
 }
 
-function handleCardClick(index, card) {
+// function handleCardClick(index, card, category) {
+//   console.log(card.textContent);
+//   if (document.body.classList.contains("lock")) return;
+
+//   document.body.classList.add("lock");
+
+//   if (index === correctIndex) {
+//     score++;
+//     message.textContent = "Correct!";
+//     document.body.style.backgroundColor = "#a6f4a6";
+//   } else {
+//     message.textContent = "Incorrect. Try again next time.";
+//     document.body.style.backgroundColor = "#f4a6a6";
+//   }
+
+//   scoreDisplay.textContent = `${score}/${totalRounds}`;
+//   nextRoundBtn.classList.add("hidden");
+
+//   setTimeout(() => {
+//     document.body.style.backgroundColor = "#f4f4f4";
+//     document.body.classList.remove("lock");
+
+//     currentRound++;
+//     if (currentRound < totalRounds) {
+//       startRound();
+//     } else {
+//       message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
+//       nextRoundBtn.textContent = "Play Again";
+//       nextRoundBtn.classList.remove("hidden");
+//       nextRoundBtn.onclick = () => location.reload();
+//     }
+//   }, 3000);
+// }
+function handleCardClick(index, card, category) {
   if (document.body.classList.contains("lock")) return;
 
   document.body.classList.add("lock");
 
   if (index === correctIndex) {
     score++;
-    message.textContent = "Correct!";
+    message.textContent = `Correct! This one is from "${oddOneLabel}", while the others are from "${mainGroupLabel}".`;
     document.body.style.backgroundColor = "#a6f4a6";
   } else {
-    message.textContent = "Incorrect. Try again next time.";
+    message.textContent = `Incorrect. You chose one from "${mainGroupLabel}", but the odd one is ${index[correctIndex]}.`;
     document.body.style.backgroundColor = "#f4a6a6";
   }
 
-  scoreDisplay.textContent = `${score}/${totalRounds}`;
-  nextRoundBtn.classList.add("hidden");
-
+  scoreDisplay.textContent = score;
   setTimeout(() => {
     document.body.style.backgroundColor = "#f4f4f4";
     document.body.classList.remove("lock");
-
-    currentRound++;
-    if (currentRound < totalRounds) {
-      startRound();
-    } else {
-      message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
-      nextRoundBtn.textContent = "Play Again";
-      nextRoundBtn.classList.remove("hidden");
-      nextRoundBtn.onclick = () => location.reload();
-    }
+    nextRoundBtn.click(); // Advance automatically
   }, 3000);
 }
 
@@ -93,15 +117,15 @@ function generateItemsFromGroups(groups, numCards) {
   const correctGroupIndex = Math.floor(Math.random() * groupCount);
   const oddGroupIndex = (correctGroupIndex + 1 + Math.floor(Math.random() * (groupCount - 1))) % groupCount;
 
-  const correctGroup = shuffleArray([...groupValues[correctGroupIndex]]);
-  const oddGroup = shuffleArray([...groupValues[oddGroupIndex]]);
+  const correctGroup = shuffleArray([...groupValues[correctGroupIndex].items]);
+  const oddGroup = shuffleArray([...groupValues[oddGroupIndex].items]);
 
   const correctItem = oddGroup[0];
   const items = correctGroup.slice(0, numCards - 1);
   const correctIndex = Math.floor(Math.random() * numCards);
   items.splice(correctIndex, 0, correctItem);
 
-  return { items, correctIndex };
+  return { items, correctIndex, correctGroup, oddGroup };
 }
 
 function renderRound(data) {
@@ -109,7 +133,7 @@ function renderRound(data) {
   message.textContent = "";
   nextRoundBtn.classList.add("hidden");
   const numCards = currentDifficulty;
-
+ 
   cardContainer.className = "card-container"; // reset classes
   if (numCards === 6) {
     cardContainer.classList.add("grid-3x2");
@@ -117,7 +141,7 @@ function renderRound(data) {
     cardContainer.classList.add("grid-3x3");
   }
 
-  const { items, correctIndex: index } = generateItemsFromGroups(data.groups, numCards);
+  const { items, correctIndex: index, mainGroupLabel, oddOneLabel } = generateItemsFromGroups(data.groups, numCards);
   correctIndex = index;
 
   items.forEach((item, idx) => {
