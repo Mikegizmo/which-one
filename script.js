@@ -169,6 +169,7 @@ document.querySelectorAll("#rounds-group .option").forEach((btn) => {
     document.querySelectorAll("#rounds-group .option").forEach(b => b.classList.remove("selected"));
     btn.classList.add("selected");
     totalRounds = parseInt(btn.dataset.value);
+    console.log(totalRounds);
   });
 });
 

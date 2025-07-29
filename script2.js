@@ -106,7 +106,7 @@ function handleCardClick(index, item) {
     currentRound++;
 
     if (currentRound < totalRounds) {
-      startRound();
+      nextRound();
     } else {
       message.textContent = `Game over! Final score: ${score}/${totalRounds}`;
       nextRoundBtn.textContent = "Play Again";
@@ -177,6 +177,7 @@ function nextRound() {
 nextRoundBtn.addEventListener("click", nextRound);
 
 async function beginGame(currentCategory, currentDifficulty, rounds) {
+  console.log(currentCategory, currentDifficulty, rounds);
   totalRounds = rounds;
   currentRound = 0;
   score = 0;
@@ -189,6 +190,7 @@ async function beginGame(currentCategory, currentDifficulty, rounds) {
 startGameBtn.addEventListener("click", () => {
   const selectedCategory = document.querySelector("#category-options .selected");
   const selectedDifficulty = document.querySelector("#difficulty-options .selected");
+  const selectedRounds = document.querySelector("#rounds-group .option");
 
   if (selectedCategory) currentCategory = selectedCategory.dataset.value;
   if (selectedDifficulty) {
@@ -196,10 +198,11 @@ startGameBtn.addEventListener("click", () => {
                         selectedDifficulty.dataset.value === "hard" ? 9 : 3;
     cardCount = currentDifficulty === "easy" ? 3 : currentDifficulty === "medium" ? 6 : 9;
   }
+  if(selectedRounds) totalRounds = selectedRounds.dataset.value;
 
   setupScreen.classList.add("hidden");
   gameScreen.classList.remove("hidden");
-  beginGame();
+  beginGame(currentCategory, currentDifficulty, totalRounds);
 });
 
 // Add toggle behavior for category, difficulty, number of rounds buttons
