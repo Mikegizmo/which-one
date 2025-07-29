@@ -25,6 +25,19 @@
         { "value": "#E9967A", "label": "Dark Salmon" },
         { "value": "#FFA07A", "label": "Light Salmon" }
       ]
+    },
+    {
+      "name": "Shades of Yellow",
+      "items": [
+        { "value": "#FFDA03", "label": "Sunflower" },
+        { "value": "#FFFF00", "label": "Yellow" },
+        { "value": "#DAA520", "label": "Goldenrod" },
+        { "value": "#E3C565", "label": "Biscotti" },
+        { "value": "#FDE992", "label": "Parmesan" },
+        { "value": "#FDEFB2", "label": "Buttermilk" },
+        { "value": "#D5B60A", "label": "Dark Yellow" },
+        { "value": "#DECA57", "label": "Dull Yellow" }
+      ]
     }
   ]
 }

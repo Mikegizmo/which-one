@@ -61,6 +61,10 @@ h1, h2 {
   cursor: pointer;
 }
 
+.card:hover {
+  border: 3px solid red; 
+}
+
 .color-box {
   width: 100%;
   height: 100%;

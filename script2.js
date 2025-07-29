@@ -92,10 +92,10 @@ function handleCardClick(index, item) {
 
   if (userChoice === correctAnswer) {
     score++;
-    message.textContent = `Correct! That one was the only one from the "${chosenGroupName}".`;
+    message.textContent = `Correct! That one was the only one from the "${chosenGroupName}" category.`;
     document.body.style.backgroundColor = "#a6f4a6";
   } else {
-    message.textContent = `Incorrect. You chose one from "${chosenGroupName}", but the odd one is "${correctGroupName}".`;
+    message.textContent = `Incorrect. You chose one from "${chosenGroupName}" category, but the odd one is from the "${correctGroupName}" category.`;
     document.body.style.backgroundColor = "#f4a6a6";
   }
 
@@ -103,7 +103,6 @@ function handleCardClick(index, item) {
   setTimeout(() => {
     document.body.style.backgroundColor = "#f4f4f4";
     document.body.classList.remove("lock");
-    currentRound++;
 
     if (currentRound < totalRounds) {
       nextRound();
