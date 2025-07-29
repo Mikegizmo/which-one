@@ -1,39 +1,39 @@
 {
   "groups": [
     {
-      "name": "animals",
+      "name": "Animales",
       "items": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"]
     },
     {
-      "name": "fruits",
+      "name": "Frutas",
       "items": ["manzana", "naranja", "banana", "uva", "pera", "melón", "kiwi", "piña"]
     },
     {
-      "name": "people",
+      "name": "Gente",
       "items": ["padre", "madre", "niño", "niña", "abuelo", "abuela", "hermano", "hermana"]
     },
     {
-      "name": "places",
+      "name": "Lugares",
       "items": ["aeropuerto", "biblioteca", "casa", "tienda", "supermercado", "banco", "iglesia", "cine"]
     },
     {
-      "name": "clothing",
-      "items": ["ropa", "camisa", "pantalones", "calcetines", "zapatos", "chaqueta", "vestido", "sombrero"]
+      "name": "Ropa",
+      "items": ["abrigo", "camisa", "pantalones", "calcetines", "zapatos", "chaqueta", "vestido", "sombrero"]
     },
     {
-      "name": "household",
+      "name": "Casa",
       "items": ["ventana", "mesa", "silla", "cama", "lámpara", "manta", "espejo", "almohada"]
     },
     {
-      "name": "professions",
+      "name": "Profesiones",
       "items": ["profesor", "enfermero", "cocinero", "periodista", "abogado", "cajero", "mesero", "policía"]
     },
     {
-      "name": "months",
+      "name": "Meses",
       "items": ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
     },
     {
-      "name": "numbers",
+      "name": "Numeros",
       "items": ["cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve", "diez"]
     }
   ]
