@@ -2,7 +2,7 @@
   "groups": [
     {
       "name": "Animales",
-      "items": ["gato", "perro", "conejo", "hamster", "pájaro", "pez", "caballo", "vaca"]
+      "items": ["gato", "perro", "conejo", "oso", "pájaro", "pez", "caballo", "vaca"]
     },
     {
       "name": "Frutas",

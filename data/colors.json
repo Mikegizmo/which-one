@@ -38,6 +38,19 @@
         { "value": "#D5B60A", "label": "Dark Yellow" },
         { "value": "#DECA57", "label": "Dull Yellow" }
       ]
+    },
+    {
+      "name": "Shades of Gray",
+      "items": [
+        { "value": "#B2BEB5", "label": "Ash Gray" },
+        { "value": "#36454F", "label": "Charcoal" },
+        { "value": "#A9A9A9", "label": "Dark Gray" },
+        { "value": "#808080", "label": "Gray" },
+        { "value": "#D3D3D3", "label": "Light Gray" },
+        { "value": "#E5E4E2", "label": "Platinum" },
+        { "value": "#C0C0C0", "label": "Silver" },
+        { "value": "#848884", "label": "Smoke" }
+      ]
     }
   ]
 }

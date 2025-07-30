@@ -92,10 +92,10 @@ function handleCardClick(index, item) {
 
   if (userChoice === correctAnswer) {
     score++;
-    message.textContent = `Correct! That one was the only one from the "${chosenGroupName}" category.`;
+    message.textContent = `Correct! That one was the only one from the "${chosenGroupName}" group.`;
     document.body.style.backgroundColor = "#a6f4a6";
   } else {
-    message.textContent = `Incorrect. You chose one from "${chosenGroupName}" category, but the odd one is from the "${correctGroupName}" category.`;
+    message.textContent = `Incorrect. You chose one from "${chosenGroupName}" group, but the odd one is from the "${correctGroupName}" group.`;
     document.body.style.backgroundColor = "#f4a6a6";
   }
 
