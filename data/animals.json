@@ -1,0 +1,20 @@
+{
+  "groups": [
+    {
+      "name": "Birds",
+      "items": ["cardinal", "blue jay", "eagle", "falcon", "sparrow", "crow", "goose", "peacock"]
+    },
+    {
+      "name": "Mammals",
+      "items": ["sheep", "cow", "wolf", "tiger", "dog", "cat", "deer", "moose"]
+    },
+    {
+      "name": "Fish",
+      "items": ["salmon", "trout", "tuna", "shark", "goldfish", "koi", "catfish", "bass"]
+    }, 
+    {
+      "name": "Reptiles", 
+      "items": ["lizard", "turtle", "rattlesnake", "iguana", "crocodile", "cobra", "tortoise", "chameleon"]
+    }
+  ]
+}

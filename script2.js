@@ -49,30 +49,6 @@ function createCard(item, index, isColorCategory) {
   return card;
 }
 
-// function handleCardClick(index, item) {
-//   if (document.body.classList.contains("lock")) return;
-
-//   document.body.classList.add("lock");
-
-//   const selectedGroup = findGroup(item);
-//   const isCorrect = index === correctIndex;
-
-//   if (isCorrect) {
-//     score++;
-//     message.textContent = `Correct! '${item}' is from the '${selectedGroup}' group, unlike the others from '${correctGroup}'.`;
-//     document.body.style.backgroundColor = "#a6f4a6";
-//   } else {
-//     message.textContent = `Incorrect. '${item}' is from the '${selectedGroup}' group. The odd one out was from '${correctGroup}'.`;
-//     document.body.style.backgroundColor = "#f4a6a6";
-//   }
-
-//   scoreDisplay.textContent = score;
-//   setTimeout(() => {
-//     document.body.style.backgroundColor = "#f4f4f4";
-//     document.body.classList.remove("lock");
-//     nextRound();
-//   }, 3000);
-// }
 function handleCardClick(index, item) {
   if (document.body.classList.contains("lock")) return;
 

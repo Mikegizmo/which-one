@@ -6,6 +6,12 @@ body {
   text-align: center;
 }
 
+#instructions {
+  max-width: 65%;
+  margin: auto;
+  text-align: center;
+}
+
 h1, h2 {
   margin: 10px 0;
 }
