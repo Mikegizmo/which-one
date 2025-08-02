@@ -1,0 +1,20 @@
+{
+  "groups": [
+    {
+      "name": "Biology",
+      "items": ["cell", "DNA", "gene", "organism", "ecosystem", "evolution", "photosynthesis", "homeostasis", "mitosis", "meiosis", "genetics", "ecology"]
+    },
+    {
+      "name": "Chemistry",
+      "items": ["atom", "molecule", "element", "compound", "atomic mass", "acid", "base", "solution", "solvent", "calayst", "equilibrium", "alloy"]
+    },
+    {
+      "name": "Astronomy",
+      "items": ["galaxy", "asteroid", "comet", "constellation", "solar system", "nebula", "black hole", "light year", "equinox", "planet", "eclipse", "moon"]
+    },
+    {
+      "name": "Physics",
+      "items": ["force", "motion", "energy", "mass", "velocity", "acceleration", "momentum", "work", "power", "wave", "inertia", "gravity"]
+    }
+  ]
+}
