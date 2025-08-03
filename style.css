@@ -42,16 +42,18 @@ h1, h2 {
 #start-game, #next-round {
   padding: 10px 25px;
   font-size: 16px;
-  background-color: #333;
+  background-color: blue;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 #start-game:hover, #next-round:hover {
-  background-color: #555;
+  color: blue;
+  background-color: white;
+  border: 2px solid blue;
 }
 
 .card {
