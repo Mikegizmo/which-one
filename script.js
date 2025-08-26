@@ -6,11 +6,13 @@ let currentDifficulty = 3;
 let currentData;
 let currentCards =[];
 let correctIndex = -1;
-let correctGroup = "";
-let oddGroup = "";
+let correctGroupName = "";
+let oddGroupName = "";
+let otherGroupName = "";
 
 const cardContainer = document.getElementById("card-container");
 const message = document.getElementById("message");
+const roundDisplay = document.getElementById("round-counter");
 const scoreDisplay = document.getElementById("score");
 const nextRoundBtn = document.getElementById("next-round");
 const startGameBtn = document.getElementById("start-game");
@@ -53,24 +55,18 @@ function handleCardClick(index, item) {
 
   document.body.classList.add("lock");
 
-  const userChoice = currentCards[index];
-  const correctAnswer = currentCards[correctIndex];
-  
-  const chosenGroup = findGroup(userChoice, currentData.groups);
-  const chosenGroupName = currentData.groups[chosenGroup].name;
-  
-  const correctGroup = findGroup(correctAnswer, currentData.groups);
-  const correctGroupName = currentData.groups[correctGroup].name;
-  
-  if (userChoice === correctAnswer) {
+  if (index === correctIndex) {
+    document.body.style.backgroundColor = "green";
+    message.textContent = `✅ Correct! All the other cards were from the ${correctGroupName} group. You found the odd one from the ${oddGroupName} group.`;
     score++;
-    message.textContent = `Correct! That one was the only one from the "${chosenGroupName}" group.`;
-    document.body.style.backgroundColor = "#a6f4a6";
   } else {
-    message.textContent = `Incorrect. You chose one from "${chosenGroupName}" group, but the odd one is from the "${correctGroupName}" group.`;
-    document.body.style.backgroundColor = "#f4a6a6";
+    document.body.style.backgroundColor = "red";
+    const chosenGroup = findGroup(currentCards[index]);
+    message.textContent = `❌ Incorrect. That card was from the ${correctGroupName} group. The odd one out was from the ${oddGroupName} group.`;
   }
 
+  console.log(currentRound);
+  roundDisplay.innerHTML = `Round # ${currentRound}`;
   scoreDisplay.textContent = `${score} / ${totalRounds}`;
   setTimeout(() => {
     document.body.style.backgroundColor = "#f4f4f4";
@@ -84,6 +80,7 @@ function handleCardClick(index, item) {
 function findGroup(value, data) {
   for (const group in data) {
     if (data[group].items.includes(value)) {
+      console.log(data[group]);
       return group;
     }
   }
@@ -91,24 +88,28 @@ function findGroup(value, data) {
 }
 
 function renderRound() {
+  // currentRound++;
   cardContainer.innerHTML = "";
   message.textContent = "";
   nextRoundBtn.classList.add("hidden");
 
   const groupNames = Object.keys(currentData.groups);
   const baseGroupName = shuffleArray(groupNames)[0];
-
-  let oddGroupName;
+  const correctGroup = groupNames[Math.floor(Math.random() * groupNames.length)];
+  let oddGroup;
+  
   do {
-    oddGroupName = shuffleArray(groupNames)[0];
-  } while (oddGroupName === baseGroupName);
+    oddGroup = groupNames[Math.floor(Math.random() * groupNames.length)];
+  } while (oddGroup === correctGroup);
 
   const baseGroupItems = shuffleArray([...currentData.groups[baseGroupName].items]).slice(0, currentDifficulty - 1);
-  const oddItem = shuffleArray([...currentData.groups[oddGroupName].items])[0];
+  const oddItem = shuffleArray([...currentData.groups[oddGroup].items])[0];
   const allItems = [...baseGroupItems];
   correctIndex = Math.floor(Math.random() * currentDifficulty);
   allItems.splice(correctIndex, 0, oddItem);
-  correctGroup = oddGroupName;
+
+  correctGroupName = currentData.groups[baseGroupName].name;   // 🔥 store for messages
+  oddGroupName = currentData.groups[oddGroup].name;
 
   currentCards = allItems;
 
@@ -129,7 +130,9 @@ function renderRound() {
 
 function nextRound() {
   currentRound++;
+  console.log(currentRound);
   if (currentRound < totalRounds) {
+    roundDisplay.textContent = `Round # ${currentRound}`;
     nextRoundBtn.classList.remove("hidden");
     nextRoundBtn.textContent = "Next Round";
     nextRoundBtn.onclick = () => renderRound();
@@ -143,8 +146,9 @@ function nextRound() {
 
 async function beginGame(currentCategory, currentDifficulty, rounds) {
   totalRounds = rounds;
-  currentRound = 0;
+  currentRound++;
   score = 0;
+  roundDisplay.textContent = `Round # ${currentRound}`;
   scoreDisplay.textContent = score;
   nextRoundBtn.textContent = "Next Round";
   currentData = await loadCategoryData(currentCategory);
